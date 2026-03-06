@@ -1,27 +1,11 @@
 // Usa CONFIG de config.js (carregado antes deste script)
-const API_KEY = CONFIG.API_KEY;
+const PROXY_URL = CONFIG.PROXY_URL;
 const SPREADSHEET_ID = CONFIG.SHEET_ID;
 const SHEET_NAME = CONFIG.SHEET_LINKS;
 const SHEET_CONFIG = CONFIG.SHEET_CONFIG;
 const RANGE = CONFIG.RANGE_LINKS;
 const RANGE_CONFIG = CONFIG.RANGE_CONFIG;
 
-
-// ============================================================
-// DADOS MOCKADOS — usados enquanto a planilha não for configurada
-// Remova ou deixe vazio após configurar SPREADSHEET_ID acima
-// ============================================================
-const MOCK_DATA = [
-  // [categoria, ordem_cat, subcategoria, ordem_subcat, nome_link, url]
-  ['Modelos', '1', '', '', 'Modelo de Indicação', 'https://drive.google.com/drive/folders/1gDLteGMZLD3FICia58WqMAX6iRosqebB?usp=sharing'],
-  ['Modelos', '1', '', '', 'Modelo de Justificativa', 'https://drive.google.com/drive/folders/14Bzjd6yXrXeXgXZ59pKcHLmdKLHUz_BE?usp=drive_link'],
-  ['Projetos', '2', '', '', 'Modelo de Plano de Ação', 'https://drive.google.com/drive/folders/108sYjwwfoMJe00KVRsNS7IMA0zBhN1Na?usp=sharing'],
-  ['Projetos', '2', '', '', 'Projetos em Execução', 'https://drive.google.com/drive/folders/1dxyZoE040bc8i8cQfGT0l9faumsdMnq0?usp=sharing'],
-  ['Projetos', '2', '', '', 'Projetos Finalizados', 'https://drive.google.com/drive/folders/1lPJQc625sP1C_dra9WoinbWwuC_PyhnZ?usp=sharing'],
-  ['Secretaria', '3', '', '', 'Área do Escrivão', 'https://drive.google.com/drive/folders/15r6CyAQn6UE6gOANXflZRzUy2xVqAje7?usp=sharing'],
-  ['Estudos', '4', '', '', 'Acervo de Conhecimento', 'https://drive.google.com/drive/folders/1haVXjqETVtgim8YwA0fnRMJzdH2W81Lw?usp=sharing'],
-  ['Tesouraria', '5', '', '', '', ''],
-];
 
 // ============================================================
 // FUNÇÕES PRINCIPAIS
@@ -34,7 +18,7 @@ const MOCK_DATA = [
  */
 async function fetchConfig() {
   try {
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${encodeURIComponent(RANGE_CONFIG)}?key=${API_KEY}`;
+    const url = `${PROXY_URL}?range=${encodeURIComponent(RANGE_CONFIG)}`;
     const response = await fetch(url);
     if (!response.ok) return {};
 
@@ -157,7 +141,7 @@ async function fetchLinks() {
     return MOCK_DATA;
   }
 
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${encodeURIComponent(RANGE)}?key=${API_KEY}`;
+  const url = `${PROXY_URL}?range=${encodeURIComponent(RANGE)}`;
   const response = await fetch(url);
 
   if (!response.ok) {
